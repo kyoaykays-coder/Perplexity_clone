@@ -1,19 +1,26 @@
-import Sidebar from "./components/Sidebar"
-import TopBar from "./components/TopBar"
-import ChatWindow from "./components/ChatWindow"
+import { Routes, Route } from 'react-router-dom';
+import Sidebar from './components/Sidebar';
+import Home from './pages/Home';
+import Discover from './pages/Discover';
+import Spaces from './pages/Spaces';
+import Account from './pages/Account';
+import Upgrade from './pages/Upgrade';
 
-const App = () => {
+function App() {
   return (
-    <>
-    <div className="h-screen w-screen flex flex-col">
-      <TopBar />
-      <div className="flex flex-1 overflow-hidden">
-        <Sidebar />
-        <ChatWindow />
+    <div className="flex">
+      <Sidebar />
+      <div className="flex-1 text-white">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/discover" element={<Discover />} />
+          <Route path="/spaces" element={<Spaces />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/upgrade" element={<Upgrade />} />
+        </Routes>
       </div>
     </div>
-    </>
-  )
+  );
 }
 
-export default App
+export default App;
