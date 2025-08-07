@@ -26,24 +26,26 @@ import { BiHomeAlt, BiUser } from "react-icons/bi";
 import { FiPlus } from "react-icons/fi";
 import React from "react";
 
-interface SectionItem {
-  title: string;
-  icon: JSX.Element;
-}
 
-interface PanelContent {
-  title: string;
-  description?: string;
-  topic?: string;
-  sections?: SectionItem[];
-  more?: SectionItem[];
-  library?: {
-    title: string;
-    description: string;
-  };
-}
+// interface PanelContent {
+//   title: string;
+//   description?: string;
+//   topic?: string;
+//   sections?: {
+//     title: string;
+//     icon: JSX.Element;
+//   }[];
+//   more?: {
+//     title: string;
+//     icon: JSX.Element;
+//   }[];
+//   library?: {
+//     title: string;
+//     description: string;
+//   };
+// }
 
-const panelContentMap: Record<string, PanelContent> = {
+const panelContentMap = {
   Home: {
     title: "Home",
     description: "Access your recent chats and search history.",
@@ -93,10 +95,10 @@ const panelContentMap: Record<string, PanelContent> = {
   },
 };
 
-type PanelKeys = keyof typeof panelContentMap;
+// type PanelKeys = keyof typeof panelContentMap;
 
 const Sidebar = () => {
-  const [hovered, setHovered] = useState<PanelKeys | null>(null);
+  const [hovered, setHovered] = useState(null);
   const [isPanelHovered, setIsPanelHovered] = useState(false);
   const isPanelOpen = hovered !== null || isPanelHovered;
 
@@ -196,14 +198,14 @@ const Sidebar = () => {
   );
 };
 
-interface SidebarIconProps {
-  icon: React.ReactNode;
-  label: string;
-  hovered: boolean;
-  onHover?: () => void;
-}
+// interface SidebarIconProps {
+//   icon: React.ReactNode;
+//   label: string;
+//   hovered: boolean;
+//   onHover?: () => void;
+// }
 
-const SidebarIcon = ({ icon, label, hovered, onHover }: SidebarIconProps) => {
+const SidebarIcon = ({ icon, label, hovered, onHover }) => {
   return (
     <div className="relative group" onMouseEnter={onHover}>
       <div className="text-gray-300 hover:bg-[#2A2A2A] p-2 rounded-lg cursor-pointer transition-colors duration-200">
