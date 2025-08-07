@@ -1,73 +1,96 @@
-import { FaSearch, FaTimes, FaLightbulb, FaGlobe, FaMicrophone, FaPaperclip, FaLanguage, FaQuestion } from "react-icons/fa";
+import {
+  FaSearch,
+  FaTimes,
+  FaLightbulb,
+  FaGlobe,
+  FaMicrophone,
+  FaPaperclip,
+  FaLanguage,
+  FaQuestion,
+} from "react-icons/fa";
 import { BsSoundwave } from "react-icons/bs";
+import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/button";
 
 export default function App() {
   const tags = ["Parenting", "Compare", "Troubleshoot", "Health", "Sports"];
 
   return (
-    <div className="min-h-screen bg-[#0d0d0d] text-white flex flex-col items-center justify-center px-4 relative">
+    <div className="min-h-screen bg-[#202020] text-white flex flex-col items-center justify-center px-4 relative">
       {/* Logo */}
-      <h1 className="text-5xl font-light mb-10">perplexity</h1>
+      <h1 className="text-5xl font-light mb-12 tracking-tight">perplexity</h1>
 
       {/* Search Box */}
-      <div className="bg-[#161616] border border-[#2a2a2a] rounded-2xl w-full max-w-2xl p-6">
-        
-        {/* Input Field on Top */}
+      <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-2xl w-full max-w-2xl p-6 shadow-lg">
+        {/* Input */}
         <div className="mb-6">
-          <input
-            type="text"
+          <Input
             placeholder="Ask anything or @mention a Space"
-            className="w-full bg-transparent outline-none text-white placeholder-gray-400 text-lg px-4 py-3 border border-[#2a2a2a] rounded-xl"
+            className="bg-transparent text-white placeholder-gray-400 text-lg px-4 py-3 border border-[#333] rounded-xl w-full"
           />
         </div>
 
-        {/* Icons Row (3 Left + Space + 5 Right) */}
+        {/* Icons Row */}
         <div className="flex justify-between items-center">
-          
-          {/* Left Side Icons (3) */}
+          {/* Left Icons */}
           <div className="flex space-x-2">
-            <button className="p-2 rounded-xl hover:bg-gray-800"><FaSearch className="text-cyan-400" /></button>
-            <button className="p-2 rounded-xl hover:bg-gray-800"><FaTimes /></button>
-            <button className="p-2 rounded-xl hover:bg-gray-800"><FaLightbulb /></button>
+            <Button className="rounded-xl bg-[#2a2a2a] hover:bg-[#3a3a3a] text-cyan-400" size="icon">
+              <FaSearch />
+            </Button>
+            <Button className="rounded-xl bg-[#2a2a2a] hover:bg-[#3a3a3a] text-white" size="icon">
+              <FaTimes />
+            </Button>
+            <Button className="rounded-xl bg-[#2a2a2a] hover:bg-[#3a3a3a] text-yellow-400" size="icon">
+              <FaLightbulb />
+            </Button>
           </div>
 
-          {/* Spacer */}
-          <div className="flex-1" />
-
-          {/* Right Side Icons (5) */}
-          <div className="flex items-center space-x-5">
-            <FaLanguage className="hover:text-gray-300 cursor-pointer" />
-            <FaGlobe className="hover:text-gray-300 cursor-pointer" />
-            <FaPaperclip className="hover:text-gray-300 cursor-pointer" />
-            <FaMicrophone className="hover:text-gray-300 cursor-pointer" />
-            <button className="bg-cyan-400 text-black rounded-xl p-2 hover:bg-cyan-500">
+          {/* Right Icons */}
+          <div className="flex items-center space-x-4">
+            <FaLanguage className="hover:text-gray-300 cursor-pointer text-lg" />
+            <FaGlobe className="hover:text-gray-300 cursor-pointer text-lg" />
+            <FaPaperclip className="hover:text-gray-300 cursor-pointer text-lg" />
+            <FaMicrophone className="hover:text-gray-300 cursor-pointer text-lg" />
+            <Button className="bg-cyan-400 hover:bg-cyan-500 text-black rounded-xl p-2 h-auto w-auto" size="icon">
               <BsSoundwave />
-            </button>
+            </Button>
           </div>
         </div>
       </div>
 
       {/* Tags */}
-      <div className="mt-6 flex flex-wrap justify-center gap-2">
+      <div className="mt-8 flex flex-wrap justify-center gap-2">
         {tags.map((tag, i) => (
-          <button
+          <Button
             key={i}
-            className="flex items-center space-x-1 px-4 py-2 bg-[#1f1f1f] rounded-xl border border-[#333] text-sm hover:bg-[#2a2a2a] transition"
+            variant="outline"
+            className="bg-[#1f1f1f] border border-[#333] text-sm px-4 py-2 rounded-xl hover:bg-[#2a2a2a] text-white transition"
           >
-            <span>{tag === "Compare" ? "" :
-                    tag === "Troubleshoot" ? "" :
-                    tag === "Health" ? "" :
-                    tag === "Sports" ? "" :
-                    ""}</span>
-            <span className="font-medium">{tag}</span>
-          </button>
+            {tag}
+          </Button>
         ))}
       </div>
 
-      {/* Bottom Right Icons */}
-      <div className="absolute bottom-4 right-4 flex items-center space-x-3 text-gray-400">
-        <button className="hover:text-white"><FaLanguage /></button>
-        <button className="hover:text-white"><FaQuestion /></button>
+      {/* Bottom Right Floating Panel */}
+      <div className="absolute bottom-4 right-4">
+        <div className="flex items-center space-x-2 bg-[#1a1a1a] border border-[#333] px-3 py-2 rounded-xl shadow-md">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-gray-400 hover:text-white transition"
+            title="Language"
+          >
+            <FaLanguage />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-gray-400 hover:text-white transition"
+            title="Help"
+          >
+            <FaQuestion />
+          </Button>
+        </div>
       </div>
     </div>
   );
