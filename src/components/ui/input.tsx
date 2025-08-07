@@ -7,11 +7,11 @@ export const Input = ({ className = "", ...props }) => (
 );
 
 // button.tsx
-export const Button = ({ className = "", children, ...props }) => (
+export const Button = ({ className = "",  ...props }) => (
   <button
     className={`px-4 py-2 rounded-xl bg-[#2a2a2a] text-gray-300 hover:bg-[#3a3a3a] hover:text-white transition-all duration-200 ${className}`}
     {...props}
   >
-    {children}
+    {/* {children} */}
   </button>
 );
