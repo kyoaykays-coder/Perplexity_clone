@@ -1,4 +1,5 @@
-// input.tsx
+
+
 export const Input = ({ className = "", ...props }) => (
   <input
     className={`w-full px-4 py-2 rounded-xl bg-[#1a1a1a] text-white border border-[#333] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all duration-200 ${className}`}

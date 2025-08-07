@@ -12,7 +12,7 @@ import { BsSoundwave } from "react-icons/bs";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/button";
 
-export default function App() {
+export default function Home() {
   const tags = ["Parenting", "Compare", "Troubleshoot", "Health", "Sports"];
 
   return (
