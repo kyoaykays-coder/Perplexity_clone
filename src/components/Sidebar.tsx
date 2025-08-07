@@ -1,231 +1,161 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import { FaRegMoneyBillAlt, FaGlobe, FaGraduationCap } from 'react-icons/fa';
+import {
+  FiSearch,
+  FiPlus,
+} from "react-icons/fi";
+import { RiCompassDiscoverLine } from "react-icons/ri";
+import { PiSquaresFourLight } from "react-icons/pi";
 
-// Icons
-const LogoIcon = (
-  <div className="w-10 h-10 rounded-full flex items-center justify-center">
-    {/* <span className="text-black font-bold">P</span> */}
-    {/* <svg width="1588" height="400" viewBox="0 0 1588 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M101.008 42L190.99 124.905V124.886V42.1913H208.506V125.276L298.891 42V136.524H336V272.866H299.005V357.035L208.506 277.525V357.948H190.99V278.836L101.11 358V272.866H64V136.524H101.008V42ZM177.785 153.826H81.5159V255.564H101.088V223.472L177.785 153.826ZM118.625 231.149V319.392L190.99 255.655V165.421L118.625 231.149ZM209.01 254.812V165.336L281.396 231.068V272.866H281.489V318.491L209.01 254.812ZM299.005 255.564H318.484V153.826H222.932L299.005 222.751V255.564ZM281.375 136.524V81.7983L221.977 136.524H281.375ZM177.921 136.524H118.524V81.7983L177.921 136.524Z" fill="black"/>
-    <path d="M768.761 134.448H779.882V157.366H765.486C754.204 157.366 745.79 160.08 740.213 165.524C734.669 170.951 731.881 179.877 731.881 192.284V267.432H709.153V134.971H731.881V156.108C731.881 157.301 732.481 157.89 733.648 157.89C734.313 157.89 734.815 157.726 735.172 157.383C735.528 157.039 735.836 156.369 736.193 155.339C740.57 141.428 751.448 134.464 768.777 134.464H768.761V134.448ZM919.945 162.843C925.911 173.452 928.91 186.236 928.91 201.177C928.91 216.118 925.927 228.902 919.945 239.511C913.963 250.121 906.214 258.065 896.698 263.329C887.183 268.593 876.953 271.225 866.011 271.225C844.45 271.225 829.293 262.561 820.539 245.233C819.874 243.876 819.015 243.189 818.01 243.189C817.005 243.189 816.486 243.696 816.486 244.726V315.804H793.758V134.954H816.486V157.628C816.486 158.641 816.989 159.165 818.01 159.165C819.031 159.165 819.858 158.494 820.539 157.121C829.293 139.793 844.45 131.129 866.011 131.129C876.953 131.129 887.183 133.761 896.698 139.025C906.214 144.289 913.947 152.233 919.945 162.843ZM906.198 201.177C906.198 185.549 902.032 173.37 893.699 164.625C885.367 155.879 874.392 151.514 860.726 151.514C847.06 151.514 836.085 155.895 827.753 164.625C819.404 173.37 816.357 185.565 816.357 201.177C816.357 216.789 819.42 228.984 827.753 237.729C836.085 246.492 847.076 250.84 860.726 250.84C874.376 250.84 885.367 246.459 893.699 237.729C902.032 229 906.198 216.789 906.198 201.177ZM537.17 163.039C543.136 173.648 546.135 186.432 546.135 201.373C546.135 216.315 543.152 229.098 537.17 239.707C531.188 250.317 523.44 258.262 513.924 263.525C504.408 268.789 494.179 271.421 483.236 271.421C461.676 271.421 446.518 262.757 437.764 245.429C437.1 244.072 436.241 243.386 435.235 243.386C434.23 243.386 433.712 243.892 433.712 244.922V316H411V135.151H433.728V157.824C433.728 158.838 434.23 159.361 435.252 159.361C436.273 159.361 437.1 158.691 437.781 157.317C446.535 139.989 461.692 131.325 483.253 131.325C494.195 131.325 504.424 133.957 513.94 139.221C523.456 144.485 531.189 152.43 537.187 163.039H537.17ZM523.407 201.373C523.407 185.745 519.241 173.567 510.909 164.821C502.576 156.091 491.585 151.71 477.935 151.71C464.286 151.71 453.295 156.091 444.962 164.821C436.63 173.583 433.566 185.762 433.566 201.373C433.566 216.985 436.63 229.18 444.962 237.926C453.295 246.688 464.269 251.036 477.935 251.036C491.601 251.036 502.576 246.655 510.909 237.926C519.241 229.196 523.407 216.985 523.407 201.373ZM668.982 225.355H692.975C689.781 237.762 683.248 248.502 673.408 257.575C663.551 266.664 649.448 271.192 631.081 271.192C617.269 271.192 605.111 268.348 594.59 262.659C584.069 256.97 575.947 248.878 570.208 238.334C564.47 227.807 561.617 215.415 561.617 201.144C561.617 186.873 564.405 174.482 569.949 163.954C575.493 153.427 583.291 145.318 593.309 139.63C603.328 133.941 615.064 131.096 628.536 131.096C642.007 131.096 653.176 133.908 662.514 139.499C671.868 145.106 678.838 152.544 683.475 161.78C688.111 171.049 690.413 181.184 690.413 192.219V207.503H585.593C586.419 220.745 590.861 231.289 598.853 239.086C606.845 246.9 617.593 250.807 631.065 250.807C642.007 250.807 650.404 248.568 656.208 244.056C662.011 239.544 666.259 233.316 668.966 225.322L668.982 225.355ZM585.123 188.426H664.443C664.443 176.885 661.493 167.829 655.592 161.29C649.691 154.767 640.435 151.481 627.806 151.481C616.021 151.481 606.375 154.669 598.886 161.045C591.396 167.404 586.809 176.542 585.123 188.426ZM947.244 267.4H969.988V84H947.244V267.416V267.4ZM1266.89 120.487H1293.45V91.814H1266.89V120.487ZM1364.95 247.669C1360.82 248.094 1358.32 248.306 1357.5 248.306C1356.33 248.306 1355.37 247.963 1354.71 247.276C1354.04 246.606 1353.69 245.674 1353.69 244.464C1353.69 243.631 1353.91 241.113 1354.34 236.945C1354.74 232.793 1354.97 226.368 1354.97 217.72V154.342H1387.39L1381 134.938H1354.98V99.2683H1332.26V134.922H1307.53V154.326H1332.26V224.063C1332.26 238.678 1335.81 249.548 1342.87 256.676C1349.94 263.803 1360.72 267.383 1375.22 267.383H1392.9V247.015H1384.05C1375.46 247.015 1369.1 247.227 1364.97 247.652L1364.95 247.669ZM1502.34 134.938L1464.7 246.083C1464.2 247.456 1463.4 249.238 1460.83 249.238C1458.25 249.238 1457.44 247.456 1456.93 246.083L1419.29 134.938H1396.11L1439.7 267.4H1455.12C1456.12 267.4 1456.89 267.498 1457.41 267.661C1457.91 267.825 1458.33 268.25 1458.67 268.936C1459.33 269.95 1459.25 271.486 1458.41 273.514L1451.34 292.869C1450.32 295.419 1448.39 296.694 1445.54 296.694C1444.52 296.694 1442.17 296.481 1438.47 296.056C1434.76 295.631 1429.98 295.419 1424.08 295.419H1405.63V315.787H1429.88C1444.03 315.787 1452.54 313.368 1459.87 308.529C1467.2 303.691 1472.87 295.157 1476.92 282.93L1524 140.022V134.938H1502.37H1502.34ZM1189.96 184.356L1154.34 134.938H1129.33V140.022L1172.01 197.335L1119.97 262.299V267.383H1145.49L1186.92 214.14L1225.57 267.383H1250.08V262.299L1204.85 201.161L1253.88 140.284V134.938H1228.36L1189.97 184.356H1189.96ZM1269.31 267.4H1292.05V134.954H1269.31V267.416V267.4ZM1119.66 225.355C1116.45 237.762 1109.94 248.502 1100.1 257.575C1090.24 266.664 1076.14 271.192 1057.77 271.192C1043.96 271.192 1031.8 268.348 1021.28 262.659C1010.74 256.97 1002.64 248.878 996.899 238.334C991.176 227.807 988.323 215.415 988.323 201.144C988.323 186.873 991.111 174.482 996.656 163.954C1002.22 153.427 1010 145.318 1020.02 139.63C1030.03 133.941 1041.77 131.096 1055.26 131.096C1068.75 131.096 1079.9 133.908 1089.25 139.499C1098.59 145.106 1105.58 152.544 1110.21 161.78C1114.85 171.049 1117.15 181.184 1117.15 192.219V207.503H1012.32C1013.16 220.745 1017.58 231.289 1025.58 239.086C1033.57 246.9 1044.32 250.807 1057.79 250.807C1068.73 250.807 1077.13 248.568 1082.93 244.056C1088.73 239.544 1092.98 233.316 1095.67 225.322H1119.68L1119.66 225.355ZM1012.38 188.426H1091.7C1091.7 176.885 1088.75 167.829 1082.87 161.29C1076.96 154.767 1067.71 151.481 1055.08 151.481C1043.29 151.481 1033.65 154.669 1026.16 161.045C1018.67 167.404 1014.07 176.542 1012.4 188.426H1012.38Z" fill="black"/>
-    </svg> */}
-
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVIatMcuxWWUK4y29xqTmCVdWJtYzOxTGGpi2Gmft6I2qbqOto9ynk2j5j7B4Xnq5hqn4&usqp=CAU" alt="" />
-  </div>
-);
-
-const PlusIcon = (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-    <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-  </svg>
-);
-
-const HomeIcon = (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-    <path d="M3 12L12 3l9 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M9 21V15h6v6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
-const DiscoverIcon = (
-  <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
-    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.27 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z" stroke="currentColor" strokeWidth="2" />
-  </svg>
-);
-
-const SpacesIcon = (
-  <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
-  </svg>
-);
-
-const InstallIcon = (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-    <path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
-const UpgradeIcon = (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-    <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
-// Content Components
-const HomeContent = () => (
-  <div className="p-6 text-white">
-    <h1 className="text-2xl font-bold mb-4">Home</h1>
-    <div className="space-y-2">
-      <div>📊 Finance</div>
-      <div>✈️ Travel</div>
-      <div>📚 Academic</div>
-    </div>
-  </div>
-);
-
-const DiscoverContent = () => (
-  <div className="p-6 text-white">
-    <h1 className="text-2xl font-bold mb-4">Discover</h1>
-    <div>🚀 Explore content</div>
-  </div>
-);
-
-const SpacesContent = () => (
-  <div className="p-6 text-white">
-    <h1 className="text-2xl font-bold mb-4">Spaces</h1>
-    <div>👥 Team spaces and groups</div>
-  </div>
-);
-
-const UpgradeContent = () => (
-  <div className="p-6 text-white">
-    <h1 className="text-2xl font-bold mb-4">Upgrade</h1>
-    <div>💎 Upgrade your plan</div>
-  </div>
-);
-
-
-
-const InstallContent = () => (
-  <div className="p-6 text-white">
-    <h1 className="text-2xl font-bold mb-4">Install</h1>
-    <div>⬇️ Download and install apps</div>
-  </div>
-);
-
-useEffect(() => {
-  const handleClickOutside = (event: MouseEvent) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-      setShowDropdown(false);
+const panelContentMap: Record<string, { title: string; description: string }> = {
+  Home: {
+    title: "Home",
+    description: "Access your recent chats and search history.",
+    sections: [
+      {
+        title: "Finance",
+        icon: <FaRegMoneyBillAlt className="w-5 h-5 text-gray-400 mr-2" />
+      },
+      {
+        title: "Travel",
+        icon: <FaGlobe className="w-5 h-5 text-gray-400 mr-2" />
+      },
+      {
+        title: "Academic",
+        icon: <FaGraduationCap className="w-5 h-5 text-gray-400 mr-2" />
+      }
+    ],
+    library: {
+      title: "Library"
     }
-  };
+  },
+  Discover: {
+    title: "Discover",
+    topic: "Topics",
+  },
+  Spaces: {
+    title: "Spaces",
+    description: "Organize and manage your collections.",
+  },
+};
 
-  document.addEventListener("mousedown", handleClickOutside);
-  return () => document.removeEventListener("mousedown", handleClickOutside);
-}, []);
-// Sidebar
-const Sidebar = ({ onHoverSection }) => {
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+const Sidebar = () => {
+  const [hovered, setHovered] = useState<string | null>(null);
 
   return (
-    <div className="h-screen w-16 bg-[#171717] text-white flex flex-col items-center py-4 border-r border-gray-800 relative">
-      {/* Logo */}
-      <div className="mb-6 cursor-pointer" onMouseEnter={() => onHoverSection("home")} onMouseLeave={() => onHoverSection(null)}>
-        {LogoIcon}
-      </div>
+    <div className="flex font-inter relative">
+      {/* Sidebar */}
+      <div
+        className="h-screen w-[62px] bg-[#1E1E1E] text-white flex flex-col items-center py-8 border-r border-[#2c2c2c] relative"
+      >
+        {/* Logo */}
+        <div className="mb-4">
+          <img src="public/Off-White@2x.png" alt="Logo" className="w-12 h-12" />
+        </div>
 
-      {/* Plus Icon */}
-      <div className="mb-4 cursor-pointer" onMouseEnter={() => onHoverSection("home")} onMouseLeave={() => onHoverSection(null)}>
-        <div className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-600 hover:bg-blue-700">
-          {PlusIcon}
+        {/* Icons */}
+        <div className="flex flex-col items-center gap-6 mt-4 relative">
+          <SidebarIcon
+            className='mb-4'
+            icon={<FiPlus size={24} />}
+            label="New"
+            hovered={hovered === "New"}
+          />
+          <SidebarIcon
+            icon={<FiSearch size={24} />}
+            label="Home"
+            hovered={hovered === "Home"}
+            onHover={() => setHovered("Home")}
+            onLeave={() => setHovered(null)}
+          />
+          <SidebarIcon
+            icon={<RiCompassDiscoverLine size={24} />}
+            label="Discover"
+            hovered={hovered === "Discover"}
+            onHover={() => setHovered("Discover")}
+            onLeave={() => setHovered(null)}
+          />
+          <SidebarIcon
+            icon={<PiSquaresFourLight size={24} />}
+            label="Spaces"
+            hovered={hovered === "Spaces"}
+            onHover={() => setHovered("Spaces")}
+            onLeave={() => setHovered(null)}
+          />
         </div>
       </div>
 
-      {/* Home */}
-      <div className="mb-4 cursor-pointer" onMouseEnter={() => onHoverSection("home")} onMouseLeave={() => onHoverSection(null)}>
-        <div className="w-10 h-10 flex items-center justify-center rounded-md text-gray-300 hover:bg-gray-700">
-          {HomeIcon}
-        </div>
-      </div>
+      {/* Animated Side Panel */}
+      <div
+        className={`h-screen transition-all duration-300 ease-in-out overflow-hidden ${hovered ? "w-72 opacity-100" : "w-0 opacity-0"
+          } bg-[#121212] text-white shadow-xl`}
+      >
+        {hovered && (
+          <div className="p-4 mx-4">
+            <span className=" font-semibold">
+              {panelContentMap[hovered].title}
+            </span>
+            <div className="mt-4">
+              <hr className="my-4 w-full h-0.5" />
+              <span className="ml-2">{panelContentMap[hovered].topic}</span>
 
-      {/* Discover */}
-      <div className="mb-4 cursor-pointer" onMouseEnter={() => onHoverSection("discover")} onMouseLeave={() => onHoverSection(null)}>
-        <div className="w-10 h-10 flex items-center justify-center rounded-md text-gray-300 hover:bg-gray-700">
-          {DiscoverIcon}
-        </div>
-      </div>
 
-      {/* Spaces */}
-      <div className="mb-4 cursor-pointer" onMouseEnter={() => onHoverSection("spaces")} onMouseLeave={() => onHoverSection(null)}>
-        <div className="w-10 h-10 flex items-center justify-center rounded-md text-gray-300 hover:bg-gray-700">
-          {SpacesIcon}
-        </div>
-      </div>
+              {panelContentMap[hovered].sections?.map((section, index) => (
+                <div key={index} className="mx-6 mb-2 flex items-center">
+                  {/* Title with Icon on the same line */}
+                  <h6 className="font-medium flex items-center mr-2">
+                    {section.icon}
+                    <span className="ml-2">{section.title}</span>
+                  </h6>
+                </div>
 
-      {/* Spacer */}
-      <div className="flex-grow" />
-
-      {/* Upgrade */}
-      <div className="mb-4 cursor-pointer" onMouseEnter={() => onHoverSection("upgrade")} onMouseLeave={() => onHoverSection(null)}>
-        <div className="w-10 h-10 flex items-center justify-center rounded-md text-gray-300 hover:bg-gray-700">
-          {UpgradeIcon}
-        </div>
-      </div>
-
-      {/* Install */}
-      <div className="mb-6 cursor-pointer" onMouseEnter={() => onHoverSection("install")} onMouseLeave={() => onHoverSection(null)}>
-        <div className="w-10 h-10 flex items-center justify-center rounded-md text-gray-300 hover:bg-gray-700">
-          {InstallIcon}
-        </div>
-      </div>
-
-      {/* Profile with dropdown */}
-      <div className="relative mb-2" ref={dropdownRef}>
-      {/* Dropdown Panel */}
-      {showDropdown && (
-        <div className="absolute bottom-14 left-1/2 -translate-x-1/2 w-56 bg-[#121212] text-white rounded-md shadow-lg border border-gray-700 z-50 animate-fade-in">
-          <ul className="p-2 text-sm">
-            <li className="py-2 px-4 hover:bg-gray-800 rounded">👤 Account</li>
-            <li className="py-2 px-4 hover:bg-gray-800 rounded">⚙️ Preferences</li>
-            <li className="py-2 px-4 hover:bg-gray-800 rounded">✨ Personalization</li>
-            <li className="py-2 px-4 hover:bg-gray-800 rounded">📅 Tasks</li>
-            <li className="py-2 px-4 hover:bg-gray-800 rounded">🔔 Notifications</li>
-            <li className="py-2 px-4 hover:bg-gray-800 rounded">🔌 Connectors</li>
-            <li className="py-2 px-4 hover:bg-gray-800 rounded">💎 Pro Perks</li>
-            <li className="py-2 px-4 hover:bg-gray-800 rounded">⚙️ All Settings</li>
-            <li className="py-2 px-4 hover:bg-gray-800 rounded">💳 View Plans</li>
-          </ul>
-          <div className="border-t border-gray-700 p-3 text-sm text-gray-300">
-            <div className="flex items-center space-x-2">
-              <div className="w-7 h-7 rounded-full bg-orange-500 text-white flex items-center justify-center text-xs font-bold">K</div>
-              <span>kyoaykays81378</span>
+              ))}
+            </div>
+            <div className="mt-4">
+              {panelContentMap[hovered].library && (
+                <div>
+                  <h3 className="text-lg font-medium">{panelContentMap[hovered].library.title}</h3>
+                  <p className="text-sm text-gray-400">{panelContentMap[hovered].library.description}</p>
+                </div>
+              )}
             </div>
           </div>
-        </div>
-      )}
 
-      {/* Trigger Button */}
-      <div
-        onClick={() => setShowDropdown((prev) => !prev)}
-        className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold cursor-pointer"
-      >
-        K
+        )}
       </div>
-      </div>
-      </div>
+    </div>
   );
 };
 
-// Main App Layout
-export default function AppLayout() {
-  const [hoveredPanel, setHoveredPanel] = useState<string | null>(null);
-
-  const renderPanel = () => {
-    switch (hoveredPanel) {
-      case "home":
-        return <HomeContent />;
-      case "discover":
-        return <DiscoverContent />;
-      case "spaces":
-        return <SpacesContent />;
-      case "upgrade":
-        return <UpgradeContent />;
-      case "install":
-        return <InstallContent />;
-      default:
-        return null;
-    }
-  };
-
+const SidebarIcon = ({
+  icon,
+  label,
+  hovered,
+  onHover,
+  onLeave,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  hovered: boolean;
+  onHover: () => void;
+  onLeave: () => void;
+}) => {
   return (
-    <div className="flex h-screen bg-black" onMouseLeave={() => setHoveredPanel(null)}>
-      <Sidebar onHoverSection={setHoveredPanel} />
-      {hoveredPanel && (
-        <div className="w-[300px] bg-[#1e1e1e] border-l border-gray-700 transition-all duration-300 ease-in-out">
-          {renderPanel()}
+    <div
+      className="relative"
+      onMouseEnter={onHover}
+      onMouseLeave={onLeave}
+    >
+      <div className="text-gray-300 hover:bg-[#2A2A2A] p-2 rounded-lg cursor-pointer transition-colors duration-200">
+        {icon}
+      </div>
+      {hovered && (
+        <div className="absolute left-1/2 -translate-x-1/2 top-12 text-xs bg-[#2A2A2A] text-white px-2 py-1 rounded shadow">
+          {label}
         </div>
       )}
     </div>
   );
-}
+};
+
+export default Sidebar;
